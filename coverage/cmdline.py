@@ -170,6 +170,14 @@ class Opts(object):
             "'pyproject.toml' are tried. [env: COVERAGE_RCFILE]"
         ),
     )
+    relative_path = optparse.make_option(
+        '', '--relative-path', action='store',
+        help=(
+            "Specify the path to which source file names should be relative to. "
+            "This prefix will be stripped from the source file paths in the "
+            "coverage data."
+        ),
+    )
     source = optparse.make_option(
         '', '--source', action='store', metavar="SRC1,SRC2,...",
         help="A list of packages or directories of code to be measured.",
@@ -222,6 +230,7 @@ class CoverageOptionParser(optparse.OptionParser, object):
             precision=None,
             pylib=None,
             rcfile=True,
+            relative_path=None,
             show_missing=None,
             skip_covered=None,
             skip_empty=None,
@@ -441,6 +450,7 @@ CMDS = {
             Opts.omit,
             Opts.pylib,
             Opts.parallel_mode,
+            Opts.relative_path,
             Opts.source,
             Opts.timid,
             ] + GLOBAL_ARGS,
@@ -569,6 +579,7 @@ class CoverageScript(object):
             concurrency=options.concurrency,
             check_preimported=True,
             context=options.context,
+            relative_path=options.relative_path
             )
 
         if options.action == "debug":

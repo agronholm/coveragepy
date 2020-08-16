@@ -101,6 +101,7 @@ class Coverage(object):
         auto_data=False, timid=None, branch=None, config_file=True,
         source=None, omit=None, include=None, debug=None,
         concurrency=None, check_preimported=False, context=None,
+        relative_path=None
     ):
         """
         Many of these arguments duplicate and override values that can be
@@ -191,6 +192,7 @@ class Coverage(object):
             source=source, run_omit=omit, run_include=include, debug=debug,
             report_omit=omit, report_include=include,
             concurrency=concurrency, context=context,
+            relative_path=relative_path
             )
 
         # This is injectable by tests.
@@ -260,7 +262,7 @@ class Coverage(object):
         # _exclude_re is a dict that maps exclusion list names to compiled regexes.
         self._exclude_re = {}
 
-        set_relative_directory()
+        set_relative_directory(getattr(self.config, 'relative_path', None))
         self._file_mapper = relative_filename if self.config.relative_files else abs_file
 
         # Load plugins

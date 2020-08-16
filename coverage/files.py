@@ -20,12 +20,13 @@ from coverage.misc import contract, CoverageException, join_regex, isolate_modul
 os = isolate_module(os)
 
 
-def set_relative_directory():
+def set_relative_directory(path=None):
     """Set the directory that `relative_filename` will be relative to."""
     global RELATIVE_DIR, CANONICAL_FILENAME_CACHE
 
     # The absolute path to our current directory.
-    RELATIVE_DIR = os.path.normcase(abs_file(os.curdir) + os.sep)
+    path = path.rstrip(os.sep) if path else os.curdir
+    RELATIVE_DIR = os.path.normcase(abs_file(path) + os.sep)
 
     # Cache of results of calling the canonical_filename() method, to
     # avoid duplicating work.
